@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Name Gender Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        /*Container for providing structure details like width padding */
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        /* Centering the header text */
+        h2 {
+            text-align: center;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- header -->
+        <h2>Guess the Gender of a Name</h2>
+
+        <!-- Input box to type name -->
+        <label for="nameInput">Enter a name:</label><br><br>
+        <input type="text" id="nameInput" placeholder="Type a name here" style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
+        
+        <!-- Button to predict -->
+        <button onclick="guessGender()">Predict Gender</button>
+
+        <!-- Prediction result -->
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        // Function to handle the click event and predict the gender
+        function guessGender() {
+            // Get the name from the input box
+            const enteredName = document.getElementById('nameInput').value;
+            // Call the function that guesses the gender
+            const predictedGender = predictOne(enteredName);
+            // Display the output
+            document.getElementById('result').innerText = `Predicted Gender: ${predictedGender}`;
+        }
+
+        // The function written after analysis of the dataset to predict
+        function predictOne(name) {
+            //using prefix suffix rules based on the deductions of the above visualization and some from general understanding of names
+            
+            // female suffixes
+            const female_suffixes = ['ana', 'ani', 'ena', 'ene', 'ina', 'ine', 'ita', 'lee', 
+                                     'lyn', 'lynn', 'nda', 'nie', 'nna', 'sha', 'yah', 'ynn', 
+                                     'elle', 'ette', 'ita', 'lle', 'nie', 'nne', 'ria', 'a', 
+                                     'na', 'ia', 'ie', 'ah', 'ne', 'ra', 'la', 'ee', 'ta', 
+                                     'ha', 'ya', 'e', 'i', 'y', 'h'];
+
+            // female prefixes
+            const female_prefixes = ['anna', 'mary', 'char', 'shar', 'sher', 'shan', 'mari'];
+
+            // Making everything lowercase to avoid case mismatch
+            const lowerCaseName = name.toLowerCase();
+
+            // Check for female prefixes
+            for (const prefix of female_prefixes) {
+                if (lowerCaseName.startsWith(prefix)) {
+                    return 'F';
+                }
+            }
+
+            // Check for female suffixes
+            for (const suffix of female_suffixes) {
+                if (lowerCaseName.endsWith(suffix)) {
+                    return 'F';
+                }
+            }
+
+            // Default to 'M' if no specific rule matches
+            return 'M';
+        }
+    </script>
+</body>
+</html>
